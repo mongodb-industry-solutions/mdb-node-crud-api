@@ -122,3 +122,17 @@ iac/
 │
 └── README.md                  # Detailed instructions for deploying with Terraform
 ```
+
+This file will contain sensitive values or configurations specific to your environment, such as mongo_uri, container_image, etc.
+
+```hcl
+# terraform.tfvars
+resource_group_name = "mycrud-rg"
+location            = "East US"
+container_group_name = "crud-api"
+container_name      = "crud"
+image               = "username/mdb-node-crud-api:latest"
+mongo_uri           = "mongodb+srv://username:password@cluster.mongodb.net/dbname?retryWrites=true&w=majority"
+dns_label           = "crudapidemolabel"
+app_port            = 3000
+```
