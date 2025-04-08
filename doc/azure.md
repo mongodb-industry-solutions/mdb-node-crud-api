@@ -2,6 +2,7 @@
 Log in to your registry
 
 ```sh
+az account clear
 az login
 az acr login --name mdbstore
 ```
@@ -25,3 +26,4 @@ docker push mdbstore.azurecr.io/sat/mdbdemo:latest
 
 ## References
 - [Azure Container Registry documentation](https://learn.microsoft.com/en-us/azure/container-registry/)
+- [Sign in with Web Account Manager (WAM)](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-interactively#sign-in-with-web-account-manager-wam-on-windows)
