@@ -101,18 +101,24 @@ docker-compose up --build
 
 ---
 
-## ☁️ Terraform for Azure (Coming next if you want)
+## ☁️ Terraform for Azure
+
+The structure of your Terraform project would look something like this:
 
 ```
 iac/
-├── acr-appservice/     # For full deployment with App Service + ACR
-│   ├── main.tf
-│   ├── variables.tf
-│   ├── outputs.tf
-│   └── README.md
-└── aci/                # For simplified deployment with Azure Container Instances
-    ├── main.tf
-    ├── variables.tf
-    ├── outputs.tf
-    └── README.md
+│
+├── aci/                       # Folder for Azure Container Instances configuration
+│   ├── main.tf                # Terraform configuration file
+│   ├── variables.tf           # Variable definitions
+│   ├── outputs.tf             # Output definitions
+│   └── terraform.tfvars       # Variables with sensitive data (environment specific)
+│
+├── acr-appservice/            # Folder for ACR + App Service configuration
+│   ├── main.tf                # Terraform configuration file
+│   ├── variables.tf           # Variable definitions
+│   ├── outputs.tf             # Output definitions
+│   └── terraform.tfvars       # Variables with sensitive data (environment specific)
+│
+└── README.md                  # Detailed instructions for deploying with Terraform
 ```
