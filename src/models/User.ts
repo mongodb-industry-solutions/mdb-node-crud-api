@@ -1,13 +1,16 @@
-import mongoose, { Document, Schema } from 'mongoose';
+/**
+ * @typedef {Object} User
+ * @property {string} _id - MongoDB unique identifier
+ * @property {string} name - User's full name
+ * @property {string} email - User's email address
+ */
 
-export interface IUser extends Document {
+export type User = {
+  _id?: string;
   name: string;
   email: string;
-}
+};
 
-const UserSchema: Schema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true }
-});
-
-export default mongoose.model<IUser>('User', UserSchema);
+/// File: src/controllers/userController.ts
+import { Request, Response } from 'express';
+import * as userService from '../services/userService';

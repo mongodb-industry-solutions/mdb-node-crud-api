@@ -1,27 +1,19 @@
 import express from 'express';
-import User from '../models/User';
+import { UserController } from '../controllers/userController';
 
-const router = express.Router();
+/**
+ * Returns the router configured with user routes and injected controller.
+ * @param {UserController} userController 
+ */
+const userRoutes = (userController: UserController) => {
+  const router = express.Router();
 
-router.get('/', async (req, res) => {
-  const users = await User.find();
-  res.json(users);
-});
+  router.get('/', userController.getUsers.bind(userController));
+  router.post('/', userController.createUser.bind(userController));
+  router.put('/:id', userController.updateUser.bind(userController));
+  router.delete('/:id', userController.deleteUser.bind(userController));
 
-router.post('/', async (req, res) => {
-  const newUser = new User(req.body);
-  await newUser.save();
-  res.status(201).json(newUser);
-});
+  return router;
+};
 
-router.put('/:id', async (req, res) => {
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(updatedUser);
-});
-
-router.delete('/:id', async (req, res) => {
-  await User.findByIdAndDelete(req.params.id);
-  res.status(204).send();
-});
-
-export default router;
+export default userRoutes;
