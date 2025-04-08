@@ -63,7 +63,7 @@ export class UserController {
    * @param {Response} res - The HTTP response.
    */
   async deleteUser(req: Request, res: Response) {
-    await this.userService.deleteUser(req.app.locals.db, req.params.id);
-    res.status(204).send();
+    const obj = await this.userService.deleteUser(req.app.locals.db, req.params.id);
+    !obj ? res.status(404).json({ message: 'User not found' }) : res.status(200).json(obj);
   }
 }

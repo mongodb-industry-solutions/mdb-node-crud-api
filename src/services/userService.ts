@@ -62,9 +62,12 @@ export class UserService {
    * Deletes a user by ID.
    * @param {Db} db - The database instance.
    * @param {string} id - The ID of the user to delete.
+   * @returns {Promise<User | null>} The deleted user.
    */
-  async deleteUser(db: Db, id: string): Promise<void> {
+  async deleteUser(db: Db, id: string): Promise<Partial<User> | null> {
     const objectId = new ObjectId(id);
-    await db.collection<User>('users').deleteOne({ _id: objectId as unknown as any });
+    const filter = { _id: objectId as unknown as any };
+    const res = await db.collection<User>('users').deleteOne(filter);
+    return res.deletedCount ? filter : null;
   }
 }

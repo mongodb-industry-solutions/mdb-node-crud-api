@@ -29,6 +29,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.use((req, res, next) => console.log({
   msg: 'Request: ',
   date: Date.now(),
+  method: req.method,
   path: req.path
 }) as unknown as undefined || next());
 
