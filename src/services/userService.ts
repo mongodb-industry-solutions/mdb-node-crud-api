@@ -3,23 +3,35 @@ import { User } from '../models/User';
 
 /**
  * @class UserService
- * @classdesc Provides services to manage user operations.
+ * @classdesc Provides services for CRUD operations on the user collection using MongoDB native driver.
  */
 export class UserService {
   /**
-   * Retrieve all users from the database
-   * @param {Db} db 
-   * @returns {Promise<User[]>}
+   * Fetches all users from the database.
+   * @param {Db} db - The database instance.
+   * @returns {Promise<User[]>} A promise that resolves to a list of users.
    */
   async getAllUsers(db: Db): Promise<User[]> {
     return await db.collection<User>('users').find().toArray();
   }
 
   /**
-   * Insert a new user into the database
-   * @param {Db} db 
-   * @param {User} user 
-   * @returns {Promise<User>}
+   * Fetches a single user by ID.
+   * @param {Db} db - The database instance.
+   * @param {string} id - The ID of the user.
+   * @returns {Promise<User | null>} A promise that resolves to the user or null.
+   */
+  async getUserById(db: Db, id: string): Promise<User | null> {
+    const objectId = new ObjectId(id);
+    const user = await db.collection<User>('users').findOne({ _id: objectId as unknown as any });
+    return user ? { _id: user._id.toString(), name: user.name, email: user.email } : null;
+  }
+
+  /**
+   * Creates a new user in the database.
+   * @param {Db} db - The database instance.
+   * @param {User} user - The user to be created.
+   * @returns {Promise<User>} The created user with assigned ID.
    */
   async createUser(db: Db, user: User): Promise<User> {
     const result = await db.collection<User>('users').insertOne(user);
@@ -27,11 +39,11 @@ export class UserService {
   }
 
   /**
-   * Update an existing user
-   * @param {Db} db 
-   * @param {string} id 
-   * @param {Partial<User>} updates 
-   * @returns {Promise<User | null>}
+   * Updates a user by ID with given data.
+   * @param {Db} db - The database instance.
+   * @param {string} id - The ID of the user.
+   * @param {Partial<User>} updates - Data to update.
+   * @returns {Promise<User | null>} The updated user.
    */
   async updateUser(db: Db, id: string, updates: Partial<User>): Promise<User | null> {
     const objectId = new ObjectId(id);
@@ -40,14 +52,16 @@ export class UserService {
       { $set: updates },
       { returnDocument: 'after' }
     );
+
     if (!result.value) return null;
-    return { _id: result.value._id.toString(), name: result.value.name, email: result.value.email };
+    const { _id, name, email } = result.value;
+    return { _id: _id.toString(), name, email };
   }
 
   /**
-   * Delete a user by ID
-   * @param {Db} db 
-   * @param {string} id 
+   * Deletes a user by ID.
+   * @param {Db} db - The database instance.
+   * @param {string} id - The ID of the user to delete.
    */
   async deleteUser(db: Db, id: string): Promise<void> {
     const objectId = new ObjectId(id);
