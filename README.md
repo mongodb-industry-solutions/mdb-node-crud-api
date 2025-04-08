@@ -102,3 +102,17 @@ docker-compose up --build
 ---
 
 ## ☁️ Terraform for Azure (Coming next if you want)
+
+```
+iac/
+├── acr-appservice/     # For full deployment with App Service + ACR
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   └── README.md
+└── aci/                # For simplified deployment with Azure Container Instances
+    ├── main.tf
+    ├── variables.tf
+    ├── outputs.tf
+    └── README.md
+```
