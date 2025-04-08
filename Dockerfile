@@ -6,9 +6,10 @@ WORKDIR /app
 
 # Copy the package.json and package-lock.json (or yarn.lock) for dependency installation
 COPY package*.json ./
+COPY tsconfig.json ./
 
 # Install project dependencies
-RUN npm install
+RUN npm ci --omit=dev
 
 # Copy the rest of the application files
 COPY . .
@@ -17,4 +18,4 @@ COPY . .
 RUN npm run build
 
 # Command to run after the container is created
-CMD ["node", "dist/index.js"]
+CMD ["npm", "run", "start"]
