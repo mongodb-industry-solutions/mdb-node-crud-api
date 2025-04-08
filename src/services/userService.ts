@@ -34,8 +34,9 @@ export class UserService {
    * @returns {Promise<User | null>}
    */
   async updateUser(db: Db, id: string, updates: Partial<User>): Promise<User | null> {
+    const objectId = new ObjectId(id);
     const result = await db.collection<User>('users').findOneAndUpdate(
-      { _id: new ObjectId(id) },
+      { _id: objectId as unknown as any },
       { $set: updates },
       { returnDocument: 'after' }
     );
@@ -49,6 +50,7 @@ export class UserService {
    * @param {string} id 
    */
   async deleteUser(db: Db, id: string): Promise<void> {
-    await db.collection<User>('users').deleteOne({ _id: new ObjectId(id) });
+    const objectId = new ObjectId(id);
+    await db.collection<User>('users').deleteOne({ _id: objectId as unknown as any });
   }
 }
