@@ -50,27 +50,28 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
       data: { uri: mongoUri }
     });
 
-    // System module router
-    app.use('/', sysRouter());
-
     // User module router
     const userService = new UserService();
     const userController = new UserController(userService);
     app.use('/api/users', userRoutes(userController));
-
-    // Start the HTTP server 
-    app.listen(port, () => console.log({
-      msg: `Server running on port`,
-      data: { port }
-    }));
   }
   catch (err) {
+    process.env.MSG_ERROR = (err as Error)?.message || "";
     console.error({
       msg: "MongoDB connection error",
       data: { uri: mongoUri },
       error: err
     });
   }
+
+  // System module router
+  app.use('/', sysRouter());
+
+  // Start the HTTP server 
+  app.listen(port, () => console.log({
+    msg: `Server running on port`,
+    data: { port }
+  }));
 })();
 
 export default app;

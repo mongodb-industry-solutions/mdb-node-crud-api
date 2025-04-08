@@ -10,6 +10,8 @@
     "docker:clean": "docker compose down -v --remove-orphans",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up",
+    "docker:images": "docker images",
+    "docker:status": "docker ps",
     "iac:init": "terraform init",
     "iac:deploy": "terraform apply"
   },
