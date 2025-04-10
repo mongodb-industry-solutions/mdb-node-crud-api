@@ -5,6 +5,7 @@ This setup deploys your Node.js app using Docker to Azure Container Instances (A
 ## Usage (Azure Container Instance)
 
 1. Initialize the Terraform configuration:
+
 ```bash
 cd iac/aci
 
