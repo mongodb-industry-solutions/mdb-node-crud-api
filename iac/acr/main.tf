@@ -10,6 +10,11 @@ terraform {
 
 provider "azurerm" {
   features {}
+
+  subscription_id = var.subscription_id
+  tenant_id       = var.tenant_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
 }
 
 # -------------------------
@@ -86,6 +91,10 @@ resource "azurerm_container_app" "app" {
     external_enabled = true       # Publicly accessible
     target_port      = 3000       # Port exposed by app
     transport        = "auto"
+    traffic_weight {
+      latest_revision = true
+      percentage      = 100
+    }
   }
 
   registry {
