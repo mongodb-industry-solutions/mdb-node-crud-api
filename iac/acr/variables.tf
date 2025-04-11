@@ -42,3 +42,26 @@ variable "environment_variables" {
   description = "Map of environment variables to inject into the container"
   type        = map(string)
 }
+
+## Azure 
+
+variable "subscription_id" {
+  type        = string
+  description = "Azure subscription ID"
+}
+
+variable "tenant_id" {
+  type        = string
+  description = "Azure tenant ID"
+}
+
+variable "client_id" {
+  type        = string
+  description = "Azure service principal client ID"
+}
+
+variable "client_secret" {
+  type        = string
+  sensitive   = true
+  description = "Azure service principal client secret"
+}
