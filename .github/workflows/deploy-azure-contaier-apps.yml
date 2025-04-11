@@ -1,0 +1,37 @@
+name: Build and Push Docker image to ACR
+
+on:
+  push:
+    branches:
+      - azure
+
+jobs:
+  build-and-push:
+    name: Build and Push to ACR
+    runs-on: ubuntu-latest
+
+    env:
+      ACR_NAME: satacrtest1234             # ref from terraform.tfvars: acr_name
+      IMAGE_NAME: sat-api                  # ref from terraform.tfvars: docker_image_name
+      IMAGE_TAG: latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Docker login to ACR
+        run: |
+          az acr login --name $ACR_NAME
+
+      - name: Build Docker image
+        run: |
+          docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
+
+      - name: Push Docker image to ACR
+        run: |
+          docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG
