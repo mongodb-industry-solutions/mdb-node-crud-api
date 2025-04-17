@@ -59,10 +59,12 @@ resource "azurerm_container_app_environment" "env" {
 # Container App (Runs Docker image from ACR)
 # -------------------------
 resource "azurerm_container_app" "app" {
-  name                          = var.containerapp_name
+  name                         = var.containerapp_name
   container_app_environment_id = azurerm_container_app_environment.env.id
-  resource_group_name           = azurerm_resource_group.rg.name
-  revision_mode                 = "Single"
+  resource_group_name          = azurerm_resource_group.rg.name
+  revision_mode                = "Single"
+
+  depends_on = [azurerm_container_app_environment.env]
 
   # Enables managed identity to access ACR
   identity {
@@ -73,8 +75,8 @@ resource "azurerm_container_app" "app" {
     container {
       name   = "app"
       image  = "${azurerm_container_registry.acr.login_server}/${var.docker_image_name}:${var.docker_image_tag}"
-      cpu    = 0.5                 # 0.5 vCPU
-      memory = "1.0Gi"            # 1GB RAM
+      cpu    = 0.5     # 0.5 vCPU
+      memory = "1.0Gi" # 1GB RAM
 
       # Environment variables passed to container at runtime
       dynamic "env" {
@@ -88,8 +90,8 @@ resource "azurerm_container_app" "app" {
   }
 
   ingress {
-    external_enabled = true       # Publicly accessible
-    target_port      = 3000       # Port exposed by app
+    external_enabled = true # Publicly accessible
+    target_port      = 3000 # Port exposed by app
     transport        = "auto"
     traffic_weight {
       latest_revision = true
