@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
-const mongoUri = (process.env.MONGO_URI || process.env['SERVICE_BINDING__MONGO__URI']) as string;
+const mongoUri = (process.env.MONGO_URI || process.env['SERVICE_BINDING__MONGO__URI'] || process.env['MONGODBATLAS_CLUSTER_CONNECTIONSTRING']) as string;
 
 // Enable CORS for all routes, or configure it for specific origins
 app.use(cors({
