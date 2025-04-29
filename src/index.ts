@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
-const mongoUri = (process.env.MONGO_URI || process.env['SERVICE_BINDING__MONGO__URI'] || process.env['MONGODBATLAS_CLUSTER_CONNECTIONSTRING']) as string;
+const mongoUri = (process.env['MONGODBATLAS_CLUSTER_CONNECTIONSTRING'] || process.env.MONGO_URI || process.env['SERVICE_BINDING__MONGO__URI']) as string;
 
 // Enable CORS for all routes, or configure it for specific origins
 app.use(cors({
@@ -70,7 +70,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   // Start the HTTP server 
   app.listen(port, () => console.log({
     msg: `Server running on port`,
-    data: { port }
+    data: { port, env: process.env }
   }));
 })();
 
