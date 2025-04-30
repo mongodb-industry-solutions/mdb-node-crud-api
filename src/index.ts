@@ -26,7 +26,8 @@ app.use((req, res, next) => console.log({
   msg: 'Request: ',
   date: Date.now(),
   method: req.method,
-  path: req.path
+  path: req.path,
+  env: process.env
 }) as unknown as undefined || next());
 
 // Add this line to parse JSON request bodies.
@@ -59,7 +60,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     process.env.MSG_ERROR = (err as Error)?.message || "";
     console.error({
       msg: "MongoDB connection error",
-      data: { uri: mongoUri },
+      data: { uri: mongoUri, env: process.env },
       error: err
     });
   }
