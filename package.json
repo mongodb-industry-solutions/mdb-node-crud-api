@@ -13,7 +13,11 @@
     "docker:images": "docker images",
     "docker:status": "docker ps",
     "iac:init": "terraform init",
-    "iac:deploy": "terraform apply"
+    "iac:deploy": "terraform apply",
+    "aks:init":"az aks get-credentials --resource-group sat --name myAKSCluster",
+    "aks:apply": "kubectl apply -f aks.deployment.yml & kubectl apply -f aks.loadbalancer.yml",
+    "aks:status": "kubectl get services",
+    "aks:logs": "kubectl logs deployment/aksdemo"
   },
   "keywords": [],
   "author": "",
